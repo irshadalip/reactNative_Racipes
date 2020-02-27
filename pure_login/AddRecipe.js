@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Text, ImageBackground, ScrollView, SafeAreaView, TextInput, StyleSheet,Alert, Image, TouchableOpacity } from 'react-native'
+import { View, Text, ImageBackground, ScrollView, SafeAreaView, TextInput, StyleSheet, Alert, Image, TouchableOpacity } from 'react-native'
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Bg from '../images/react-bg.png'
 import ProfileBg from '../images/Rectangle.png'
@@ -10,7 +10,7 @@ class AddRecipe extends Component {
 
     constructor() {
         super()
-        this.state = { imageUrl: '',recipeImage:null, recipeName: 'Pizza',serves: '2.5',preparationTime: '20 min' ,complexity:'Easy'}
+        this.state = { imageUrl: '', recipeImage: null, recipeName: 'Pizza', serves: '2.5', preparationTime: '20 min', complexity: 'Easy' }
     }
     componentDidMount() {
         // console.log("Add Recipe token"+this.props.navigation.state['params']['token'])
@@ -33,25 +33,25 @@ class AddRecipe extends Component {
 
             <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
                 {/* <Text>Profile</Text> */}
-                
-                <TextInput style={styles.textInput} placeholder='recipeName'value={this.state.recipeName}
-                            onChangeText={(recipeName) => this.setState({ recipeName })}></TextInput>
-                <TextInput style={styles.textInput} placeholder='serves'value={this.state.serves}
-                            onChangeText={(serves) => this.setState({ serves })}></TextInput>
-                <TextInput style={styles.textInput} placeholder='preparationTime'value={this.state.preparationTime}
-                            onChangeText={(preparationTime) => this.setState({ preparationTime })}></TextInput>
-                {/* <TextInput style={styles.textInput} placeholder='First Name'></TextInput>
-                <TextInput style={styles.textInput} placeholder='Last Name'></TextInput> */}
+
+                <TextInput style={styles.textInput} placeholder='recipeName' value={this.state.recipeName}
+                    onChangeText={(recipeName) => this.setState({ recipeName })}></TextInput>
+                <TextInput style={styles.textInput} placeholder='serves' value={this.state.serves}
+                    onChangeText={(serves) => this.setState({ serves })}></TextInput>
+                <TextInput style={styles.textInput} placeholder='preparationTime' value={this.state.preparationTime}
+                    onChangeText={(preparationTime) => this.setState({ preparationTime })}></TextInput>
+                {/* <TextInput style={styles.textInput} placeholder='recipeName' value={this.state.preparationTime}
+                    onChangeText={(preparationTime) => this.setState({ preparationTime })}></TextInput> */}
 
                 <View style={{ flexDirection: 'row' }}>
-                    <TouchableOpacity style={styles.comp} onPress={()=>{this.setState({complexity: 'Easy'})}}>
+                    <TouchableOpacity style={styles.comp} onPress={() => { this.setState({ complexity: 'Easy' }) }}>
                         <Text style={styles.compText}>Easy</Text>
                     </TouchableOpacity>
 
-                    <TouchableOpacity style={styles.comp} onPress={()=>{this.setState({complexity: 'Medium'})}}>
+                    <TouchableOpacity style={styles.comp} onPress={() => { this.setState({ complexity: 'Medium' }) }}>
                         <Text style={styles.compText}>Medium</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.comp} onPress={()=>{this.setState({complexity: 'Hard'})}}>
+                    <TouchableOpacity style={styles.comp} onPress={() => { this.setState({ complexity: 'Hard' }) }}>
                         <Text style={styles.compText}>Hard</Text>
                     </TouchableOpacity>
                 </View>
@@ -88,6 +88,11 @@ class AddRecipe extends Component {
     }
     addRecipeApi() {
         // this.setState({isLoading:true})
+        console.log("0000000000000000000000000000")
+        console.log(this.state.complexity)
+        console.log(this.state.recipeName)
+        console.log("0000000000000000000000000000")
+        // return
         fetch('http://35.160.197.175:3006/api/v1/recipe/add', {
             method: 'POST',
             headers: {
@@ -102,16 +107,36 @@ class AddRecipe extends Component {
             })
         }).then((response) => {
             if (response.status == 200) {
-                
+
                 return response.json()
             } else {
                 console.log('Error')
             }
         }).then((responseJSON) => {
             alert('success')
-            // console.log("Add Recipe Data"+responseJSON['id'])
+            
             this.uploadImageApi(responseJSON.id)
         })
+    }
+    addRacipeCookingList() {
+        // this.setState({ isRefresh: true })
+        fetch('http://35.160.197.175:3006/api/v1/recipe/add-to-cooking-list',
+            {
+                method: 'POST',
+                headers: {
+                    Authorization: 'Bearer ' + this.props.token,
+                },
+                body: JSON.stringify({
+                    name: this.state.recipeName,
+                    preparationTime: this.state.preparationTime,
+                    serves: Number(this.state.serves),
+                    complexity: this.state.complexity
+                })
+            }).then((response) => {
+                return response.json()
+            }).then((responseJSON) => {
+                this.uploadImageApi(responseJSON.id)
+            })
     }
 
 
@@ -123,26 +148,26 @@ class AddRecipe extends Component {
         };
         var formData = new FormData();
         formData.append('photo', recipePhoto);
-        formData.append('recipeId',id)
+        formData.append('recipeId', id)
 
         fetch('http://35.160.197.175:3006/api/v1/recipe/add-update-recipe-photo', {
             method: 'POST',
             headers: {
-                Authorization: 'Bearer ' +  this.props.token
+                Authorization: 'Bearer ' + this.props.token
             },
             body: formData
         }).then((responseJson) => {
-            this.setState({isLoading:false})
-            Alert.alert('Success','Recipe added')
-          }).catch((error) => {
-            this.setState({isLoading:false})
-            Alert.alert('Fail','Failed to add recipe')
-          });
+            this.setState({ isLoading: false })
+            Alert.alert('Success', 'Recipe added')
+        }).catch((error) => {
+            this.setState({ isLoading: false })
+            Alert.alert('Fail', 'Failed to add recipe')
+        });
     }
     onLogin = () => {
         this.props.imageUrl('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSyePfpi0Y_O9aRvZwArx3dL4cSCIL8jcwJoeUWDIIbhRkNhoVJ2Q&s')
     };
-    
+
 }
 
 const styles = StyleSheet.create({
@@ -170,7 +195,7 @@ const styles = StyleSheet.create({
         // alignItems: 'flex-start',
     },
     profileBg: {
-        flex:0.5,
+        flex: 0.5,
         height: "100%",
         width: '100%',
         // backgroundColor: 'red',
@@ -195,7 +220,7 @@ const styles = StyleSheet.create({
             height: 5,
             width: 5,
         },
-        justifyContent:'flex-start',
+        justifyContent: 'flex-start',
         // alignItems: 'flex-start'
 
     },
@@ -261,4 +286,4 @@ function mapDispatchToProps(dispatch) {
 const mapStateToProps = (state) => {
     return { token: state.token }
 }
-export default connect(mapStateToProps,mapDispatchToProps)(AddRecipe)
+export default connect(mapStateToProps, mapDispatchToProps)(AddRecipe)

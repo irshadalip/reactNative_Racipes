@@ -62,8 +62,8 @@ const navigationStack = createStackNavigator(
     scroll: { screen: SAComponent, navigationOptions: { headerShown: true } },
     Map: { screen: MapViews, navigationOptions: { headerShown: true } },
     Profile: { screen: Profile, navigationOptions: { headerShown: true } },
-    AddRecipe: { screen: AddRecipe, navigationOptions: { headerShown: true } },
-    DetailRecipe: { screen: DetailRecipe, navigationOptions: { headerShown: true } }
+    AddRecipe: { screen: AddRecipe, navigationOptions: { headerShown: true ,title:'Add Recipe'} },
+    DetailRecipe: { screen: DetailRecipe, navigationOptions: { headerShown: true, title: 'Recipe Details' } }
   },
   {
     tabBarPosition: 'bottom',

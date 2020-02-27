@@ -38,6 +38,8 @@ target 'pure_login' do
 
   pod 'ReactNativeGetLocation', :path => '../node_modules/react-native-get-location'
 
+  pod 'RNCAsyncStorage', :path => '../node_modules/@react-native-community/async-storage'
+
   target 'pure_loginTests' do
     inherit! :search_paths
     # Pods for testing

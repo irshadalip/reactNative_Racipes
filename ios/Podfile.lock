@@ -225,6 +225,8 @@ PODS:
     - ReactCommon/jscallinvoker (= 0.61.5)
   - ReactNativeGetLocation (1.4.2):
     - React
+  - RNCAsyncStorage (1.8.0):
+    - React
   - RNCMaskedView (0.1.6):
     - React
   - RNGestureHandler (1.6.0):
@@ -271,6 +273,7 @@ DEPENDENCIES:
   - ReactCommon/jscallinvoker (from `../node_modules/react-native/ReactCommon`)
   - ReactCommon/turbomodule/core (from `../node_modules/react-native/ReactCommon`)
   - ReactNativeGetLocation (from `../node_modules/react-native-get-location`)
+  - "RNCAsyncStorage (from `../node_modules/@react-native-community/async-storage`)"
   - "RNCMaskedView (from `../node_modules/@react-native-community/masked-view`)"
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - RNPermissions (from `../node_modules/react-native-permissions`)
@@ -340,6 +343,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon"
   ReactNativeGetLocation:
     :path: "../node_modules/react-native-get-location"
+  RNCAsyncStorage:
+    :path: "../node_modules/@react-native-community/async-storage"
   RNCMaskedView:
     :path: "../node_modules/@react-native-community/masked-view"
   RNGestureHandler:
@@ -385,6 +390,7 @@ SPEC CHECKSUMS:
   React-RCTVibration: a49a1f42bf8f5acf1c3e297097517c6b3af377ad
   ReactCommon: 198c7c8d3591f975e5431bec1b0b3b581aa1c5dd
   ReactNativeGetLocation: 9114734cbe43209e1e86ec8d1d3974ad0c364db3
+  RNCAsyncStorage: 455b48eb552543bad4e3099e180e1700700771f3
   RNCMaskedView: e5b99bc191945f157adeede68da9d424462de177
   RNGestureHandler: dde546180bf24af0b5f737c8ad04b6f3fa51609a
   RNPermissions: 6db7e0a4d94c9c02390d11020b1d3d187aaf77e5
@@ -393,6 +399,6 @@ SPEC CHECKSUMS:
   RNVectorIcons: 0bb4def82230be1333ddaeee9fcba45f0b288ed4
   Yoga: f2a7cd4280bfe2cca5a7aed98ba0eb3d1310f18b
 
-PODFILE CHECKSUM: 6d1bb4637d78f1ae5e467f960d72c547621e0f14
+PODFILE CHECKSUM: 1b2f898ed1079ad918c48f5d86cd50a5d90d41f5
 
 COCOAPODS: 1.7.2

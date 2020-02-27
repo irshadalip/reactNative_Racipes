@@ -5,6 +5,8 @@ import ProfileBg from '../images/Rectangle.png'
 import Profilepic from '../images/react-logo.png'
 import ImagePicker from 'react-native-image-picker';
 import { connect } from 'react-redux'
+import AsyncStorage from '@react-native-community/async-storage'
+import * as constant from './constant'
 
 // import Permission from 'react-native-permissions'
 
@@ -14,9 +16,12 @@ class Profile extends Component {
 
     constructor() {
         super()
-        this.state = { image: null, loadingImage: false }
+        this.state = { image: null, loadingImage: false, emailId: '', firstName: '', lastName: '' }
 
         // Permission.askAsync(Permission.CAMERA_ROLL)
+    }
+    componentDidMount() {
+        this.retrieveData()
     }
     render() {
         return (<View style={styles.mainView}>
@@ -39,10 +44,9 @@ class Profile extends Component {
 
             <View style={{ height: 350, justifyContent: "center", alignItems: "center" }}>
                 {/* <Text>Profile</Text> */}
-                <TextInput style={styles.textInput} placeholder='First Name'></TextInput>
-                <TextInput style={styles.textInput} placeholder='Last Name'></TextInput>
-                <TextInput style={styles.textInput} placeholder='Email Id'></TextInput>
-                <TextInput style={styles.textInput} placeholder='First Name'></TextInput>
+                <TextInput style={styles.textInput} placeholder='First Name'>{this.state.firstName}</TextInput>
+                <TextInput style={styles.textInput} placeholder='Last Name'>{this.state.lastName}</TextInput>
+                <TextInput style={styles.textInput} placeholder='Email Id'>{this.state.emailId}</TextInput>
                 <TouchableOpacity style={styles.submitButton} onPress={() => { }}>
                     <Text style={styles.loginText}>Submit</Text>
                 </TouchableOpacity>
@@ -51,6 +55,19 @@ class Profile extends Component {
 
         </View>);
     }
+    retrieveData = async () => {
+        try {
+            const email = await AsyncStorage.getItem(constant.EmailId);
+            const FName = await AsyncStorage.getItem(constant.FirstName);
+            const LName = await AsyncStorage.getItem(constant.LastName);
+            if (email !== null) {
+                this.setState({ emailId: email ,firstName : FName,lastName : LName });
+            }
+        } catch (error) {
+            console.log(error);
+        }
+        this.setState({ isLoading: false });
+    };
 
     fromLibrary = () => {
         this.LoadRealImage.bind(this);

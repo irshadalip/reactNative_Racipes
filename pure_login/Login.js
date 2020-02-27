@@ -4,6 +4,8 @@ import Logo from '../images/react-logo.png'
 import Bg from '../images/react-bg.png'
 import LoadingComponent from './LoadingComponent'
 import {connect} from 'react-redux'
+import AsyncStorage from '@react-native-community/async-storage'
+import * as constant from './constant';
 
 
  class Login extends Component {
@@ -84,6 +86,8 @@ import {connect} from 'react-redux'
             console.log('+++++++++++++++++++++++++++++++++++++++++++++++')
             this.props.token(responseJSON.token)
             if (responseJSON.email == 'jm1@example.com') {
+                this.storeData(responseJSON);
+
                 Alert.alert('Success!', 'You Are Successful LogIn', [{
                     text: 'Done',
                     onPress: () => {
@@ -98,6 +102,24 @@ import {connect} from 'react-redux'
             this.setState({ isLoading: false })
         })
     }
+
+
+
+  storeData = async responseJSON => {
+    try {
+      let userEmail = '';
+      let userFN = '';
+      let userLN = '';
+      userEmail = responseJSON.email;
+      userFN = responseJSON.firstName
+      userLN = responseJSON.lastName;
+      await AsyncStorage.setItem(constant.FirstName, userFN);
+      await AsyncStorage.setItem(constant.LastName, userLN);
+      await AsyncStorage.setItem(constant.EmailId, userEmail);
+    } catch (e) {
+      console.log('Error to store data' + e);
+    }
+  }
 }
 ///////////////////////////////////////////////
 
@@ -183,7 +205,8 @@ const styles = StyleSheet.create({
     },
     imageHieght: {
         height: '110%',
-        width: '40%'
+        width: '40%',
+        marginTop: 100
     },
     imageBg: {
         height: '100%',
