@@ -85,7 +85,7 @@ import * as constant from './constant';
             console.log(responseJSON)
             console.log('+++++++++++++++++++++++++++++++++++++++++++++++')
             this.props.token(responseJSON.token)
-            if (responseJSON.email == 'jm1@example.com') {
+            if (responseJSON.email == this.state.email) {
                 this.storeData(responseJSON);
 
                 Alert.alert('Success!', 'You Are Successful LogIn', [{

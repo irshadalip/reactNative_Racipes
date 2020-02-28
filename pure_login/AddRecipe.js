@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { View, Text, ImageBackground, ScrollView, SafeAreaView, TextInput, StyleSheet, Alert, Image, TouchableOpacity } from 'react-native'
-import Icon from 'react-native-vector-icons/FontAwesome';
+
 import Bg from '../images/react-bg.png'
 import ProfileBg from '../images/Rectangle.png'
 import ImagePicker from 'react-native-image-picker';
@@ -10,7 +10,7 @@ class AddRecipe extends Component {
 
     constructor() {
         super()
-        this.state = { imageUrl: '', recipeImage: null, recipeName: 'Pizza', serves: '2.5', preparationTime: '20 min', complexity: 'Easy' }
+        this.state = { imageUrl: '', recipeImage: null, recipeName: '', serves: '', preparationTime: '', complexity: '', firstName: '', lastName: '' }
     }
     componentDidMount() {
         // console.log("Add Recipe token"+this.props.navigation.state['params']['token'])
@@ -18,8 +18,6 @@ class AddRecipe extends Component {
     render() {
         return (<ImageBackground style={styles.mainView} source={Bg}>
             <ImageBackground style={styles.profileBg} source={Bg}>
-                {/* <Text style={{ paddingBottom: 25 }}>Profile</Text> */}
-                {/* {this.state.image && <Image style={styles.profilepic} source={this.state.loadingImage ? { uri: this.state.image } : require(Profilepic) }></Image>} */}
 
                 <View style={styles.profilepic}>
                     <TouchableOpacity style={{ height: '100%', width: '100%', justifyContent: 'center', alignItems: 'center' }} onPress={this.fromLibrary}>
@@ -34,24 +32,27 @@ class AddRecipe extends Component {
             <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
                 {/* <Text>Profile</Text> */}
 
+                {/* <TextInput style={styles.textInput} placeholder='Chef First Name' value={this.state.firstName}
+                    onChangeText={(firstName) => this.setState({ firstName })}></TextInput>
+                <TextInput style={styles.textInput} placeholder='Chef Last Name' value={this.state.lastName}
+                    onChangeText={(lastName) => this.setState({ lastName })}></TextInput> */}
                 <TextInput style={styles.textInput} placeholder='recipeName' value={this.state.recipeName}
                     onChangeText={(recipeName) => this.setState({ recipeName })}></TextInput>
                 <TextInput style={styles.textInput} placeholder='serves' value={this.state.serves}
                     onChangeText={(serves) => this.setState({ serves })}></TextInput>
                 <TextInput style={styles.textInput} placeholder='preparationTime' value={this.state.preparationTime}
                     onChangeText={(preparationTime) => this.setState({ preparationTime })}></TextInput>
-                {/* <TextInput style={styles.textInput} placeholder='recipeName' value={this.state.preparationTime}
-                    onChangeText={(preparationTime) => this.setState({ preparationTime })}></TextInput> */}
+        
 
                 <View style={{ flexDirection: 'row' }}>
-                    <TouchableOpacity style={styles.comp} onPress={() => { this.setState({ complexity: 'Easy' }) }}>
+                    <TouchableOpacity style={[styles.comp, { backgroundColor: this.state.complexity == 'Easy' ? 'rgba(35,90,144,1)' : 'rgba(0,0,0,0.5)' }]} onPress={() => { this.setState({ complexity: 'Easy' }) }}>
                         <Text style={styles.compText}>Easy</Text>
                     </TouchableOpacity>
 
-                    <TouchableOpacity style={styles.comp} onPress={() => { this.setState({ complexity: 'Medium' }) }}>
+                    <TouchableOpacity style={[styles.comp, { backgroundColor: this.state.complexity == 'Medium' ? 'rgba(35,90,144,1)' : 'rgba(0,0,0,0.5)' }]} onPress={() => { this.setState({ complexity: 'Medium' }) }}>
                         <Text style={styles.compText}>Medium</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.comp} onPress={() => { this.setState({ complexity: 'Hard' }) }}>
+                    <TouchableOpacity style={[styles.comp, { backgroundColor: this.state.complexity == 'Hard' ? 'rgba(35,90,144,1)' : 'rgba(0,0,0,0.5)' }]} onPress={() => { this.setState({ complexity: 'Hard' }) }}>
                         <Text style={styles.compText}>Hard</Text>
                     </TouchableOpacity>
                 </View>
@@ -91,6 +92,8 @@ class AddRecipe extends Component {
         console.log("0000000000000000000000000000")
         console.log(this.state.complexity)
         console.log(this.state.recipeName)
+        console.log(this.state.lastName)
+
         console.log("0000000000000000000000000000")
         // return
         fetch('http://35.160.197.175:3006/api/v1/recipe/add', {
@@ -102,8 +105,10 @@ class AddRecipe extends Component {
             body: JSON.stringify({
                 name: this.state.recipeName,
                 preparationTime: this.state.preparationTime,
-                serves: Number(this.state.serves),
-                complexity: this.state.complexity
+                serves: this.state.serves,
+                complexity: this.state.complexity,
+                firstName: this.state.firstName,
+                lastName: this.state.lastName
             })
         }).then((response) => {
             if (response.status == 200) {
@@ -113,8 +118,6 @@ class AddRecipe extends Component {
                 console.log('Error')
             }
         }).then((responseJSON) => {
-            alert('success')
-            
             this.uploadImageApi(responseJSON.id)
         })
     }
@@ -129,8 +132,10 @@ class AddRecipe extends Component {
                 body: JSON.stringify({
                     name: this.state.recipeName,
                     preparationTime: this.state.preparationTime,
-                    serves: Number(this.state.serves),
-                    complexity: this.state.complexity
+                    serves: this.state.serves,
+                    complexity: this.state.complexity,
+                    firstName: this.state.firstName,
+                    lastName: this.state.lastName
                 })
             }).then((response) => {
                 return response.json()
@@ -158,7 +163,12 @@ class AddRecipe extends Component {
             body: formData
         }).then((responseJson) => {
             this.setState({ isLoading: false })
-            Alert.alert('Success', 'Recipe added')
+            Alert.alert('Success!', 'Recipe added', [{
+                text: 'Done',
+                onPress: () => {
+                    this.props.navigation.pop();
+                }
+            }])
         }).catch((error) => {
             this.setState({ isLoading: false })
             Alert.alert('Fail', 'Failed to add recipe')
@@ -232,7 +242,7 @@ const styles = StyleSheet.create({
         borderColor: 'white'
     },
     comp: {
-        backgroundColor: '#004470',
+        backgroundColor: 'rgba(30,90,136,1)',//'#004470',
         fontSize: 10,
         borderRadius: 8,
         width: '30%',
@@ -242,10 +252,9 @@ const styles = StyleSheet.create({
         top: 12,
         borderColor: 'lightblue',
         borderStartWidth: 5,
-    }
-    ,
+    },
     AddButton: {
-        backgroundColor: '#004470',
+        backgroundColor: 'rgba(18,55,92,1)',
         fontSize: 20,
         borderRadius: 10,
         width: '90%',

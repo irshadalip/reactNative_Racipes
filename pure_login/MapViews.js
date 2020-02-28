@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { View } from 'react-native'
-import MapView, { Marker, Polyline } from 'react-native-maps'
+import MapView, { Marker, Polyline, PROVIDER_GOOGLE } from 'react-native-maps'
 import Permission from 'react-native-permissions'
 
 
@@ -26,6 +26,7 @@ export default class MapViews extends Component {
                     latitudeDelta: 0.05,
                     longitudeDelta: 0.05
                 }}
+                // provider={PROVIDER_GOOGLE}
                 style={{ flex: 1 }}
                 showsUserLocation={true}
                 onRegionChange={this.onMapRegionChange}
@@ -53,28 +54,36 @@ export default class MapViews extends Component {
                                 longitude: 72.506493
                             },
                             {
-                                latitude: 22.987242,
-                                longitude: 72.494659
+                                latitude: 22.999724,
+                                longitude: 72.498825
                             },
                             {
-                                latitude: 22.987154,
-                                longitude: 72.502040
+                                latitude: 22.999101, 
+                                longitude: 72.500869
                             },
                             {
-                                latitude: 22.987628,
-                                longitude: 72.503231
+                                latitude: 22.998538, 
+                                longitude: 72.501953
                             },
                             {
-                                latitude: 22.988289,
-                                longitude: 72.508788
+                                latitude: 23.002529,
+                                longitude: 72.507046
                             },
                             {
-                                latitude: 22.989287,
-                                longitude: 72.513348
+                                latitude: 23.001801, 
+                                longitude: 72.507375
                             },
                             {
-                                latitude: 22.989731,
-                                longitude: 72.514711
+                                latitude: 22.999432, 
+                                longitude: 72.509541
+                            },
+                            {
+                                latitude:  22.997337, 
+                                longitude: 72.510839
+                            },
+                            {
+                                latitude: 22.989913, 
+                                longitude: 72.515265
                             },
                             {
                                 latitude: 22.992625,

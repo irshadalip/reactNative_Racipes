@@ -16,41 +16,59 @@ class DetailRecipe extends Component {
         this.fetchRecipeListDetail(id)
     }
     render() {
-        return <View style={{flex: 1}}>
+        return <View style={{ flex: 1 }}>
             {/* <SafeAreaView> */}
-                
-                    <View style={{flex: 0.3}}>
-                        <Image style={{ height: '100%', width: '100%' }} source={this.checkImageURLNull(this.state.recipeDetail.photo)}></Image>
-                    </View>
-                    <View style={{flex: 0.7}}>
-                        <ImageBackground source={Bg} style={styles.baground} >
 
+            <View style={{ flex: 0.3 }}>
+                <Image style={{ height: '100%', width: '100%' }} source={this.checkImageURLNull(this.state.recipeDetail.photo)}></Image>
+            </View>
+            <View style={{ flex: 0.7 }}>
+                <ImageBackground source={Bg} style={{ height: '100%', paddingLeft: 10, paddingRight: 10 }} >
+                    <View><Text>
+                    </Text></View>
 
-                            <View style={styles.detaiTextRow}>
-                                <Text style={[styles.detaiText, styles.detaiTextRow]}>Chef : </Text>
-                                <Text style={styles.detaiText}>{this.state.recipeDetail.firstName} {this.state.recipeDetail.lastName}</Text>
-                            </View>
+                    <View style={styles.detaiTextRow}>
+                        <View style={styles.onlyRow}>
+                            <Image style={{ height: 25, width: 25, marginTop: 5 }} source={require('../images/comp.png')}></Image>
+                            <Text style={[styles.detaiText, styles.detaiTextRow]}>Name : </Text>
+                        </View>
 
-                            <View style={styles.detaiTextRow}>
-                                <Text style={[styles.detaiText, styles.detaiTextRow]}>preparationTime : </Text>
-                                <Text style={styles.detaiText}>{this.state.recipeDetail.preparationTime} </Text>
-                            </View>
-
-                            <View style={styles.detaiTextRow}>
-                                <Text style={[styles.detaiText, styles.detaiTextRow]}>serves : </Text>
-                                <Text style={styles.detaiText}>{this.state.recipeDetail.serves} </Text>
-                            </View>
-
-                            <View style={styles.detaiTextRow}>
-                                <Text style={[styles.detaiText, styles.detaiTextRow]}>name : </Text>
-                                <Text style={styles.detaiText}>{this.state.recipeDetail.name} </Text>
-                            </View>
-
-                        </ImageBackground>
+                        <Text style={styles.detaiTextData}>{this.state.recipeDetail.name} </Text>
                     </View>
 
+                    <View style={styles.detaiTextRow}>
+                        <View style={styles.onlyRow}>
+                            <Image style={{ height: 20, width: 20, marginTop: 5 }} source={require('../images/chef.png')}></Image>
+                            <Text style={[styles.detaiText, styles.detaiTextRow]}>Chef : </Text>
+                        </View>
 
-                
+                        <Text style={styles.detaiTextData}>{this.state.recipeDetail.firstName} {this.state.recipeDetail.lastName}</Text>
+                    </View>
+
+                    <View style={styles.detaiTextRow}>
+                        <View style={styles.onlyRow}>
+                            <Image style={{ height: 20, width: 20, marginTop: 5 }} source={require('../images/timer.png')}></Image>
+                            <Text style={[styles.detaiText, styles.detaiTextRow]}>PreparationTime : </Text>
+                        </View>
+                        <Text style={styles.detaiTextData}>{this.state.recipeDetail.preparationTime} </Text>
+                    </View>
+
+                    <View style={styles.detaiTextRow}>
+                        <View style={styles.onlyRow}>
+                            <Image style={{ height: 20, width: 20, marginTop: 5 }} source={require('../images/serves.png')}></Image>
+                            <Text style={[styles.detaiText, styles.detaiTextRow]}>Serves : </Text>
+                        </View>
+
+                        <Text style={styles.detaiTextData}>{this.state.recipeDetail.serves} </Text>
+                    </View>
+
+
+
+                </ImageBackground>
+            </View>
+
+
+
 
 
             {/* </SafeAreaView> */}
@@ -99,16 +117,24 @@ class DetailRecipe extends Component {
 
 const styles = StyleSheet.create({
     detaiText: {
-        color: 'red',
+        color: 'rgba(255,145,71,1)',
         fontSize: 20,
         fontFamily: "Baskerville-SemiBold",
+        padding: 5
+    },
+    detaiTextData: {
+        color: 'black',
+        fontSize: 20,
+        fontFamily: "AmericanTypewriter-Condensed",//"AmericanTypewriter-Light"
+        padding: 5
     },
     detaiTextRow: {
         // color: 'blue',
+        justifyContent: 'space-between',
         flexDirection: 'row'
     },
-    baground: {
-        height: '100%'
+    onlyRow: {
+        flexDirection: 'row'
     }
 })
 

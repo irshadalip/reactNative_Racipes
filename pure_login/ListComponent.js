@@ -1,11 +1,12 @@
 import React, { Component } from 'react'
-import { Image, View, Text, SafeAreaView, FlatList, ImageBackground, Button, Imageplaceholder, TouchableWithoutFeedback, Dimensions, RefreshControl, StyleSheet } from 'react-native'
+import { Image, View, Text, SafeAreaView, FlatList, ImageBackground, Button, TouchableOpacity, TouchableWithoutFeedback, Dimensions, RefreshControl, StyleSheet } from 'react-native'
 import listPic from '../images/session/pic4.png'
 import Logo from '../images/react-logo.png'
 import Bg from '../images/react-bg.png'
 import AddRecipe from './AddRecipe'
 import DetailRecipe from './DetailRecipe'
 import { connect } from 'react-redux'
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 
 
@@ -24,7 +25,7 @@ class ListComponent extends Component {
         super()
 
         // this.onLogin()
-        this.state = { recipeData: [], data: [], isRefresh: false ,recipeId: ''}
+        this.state = { recipeData: [], data: [], isRefresh: false, recipeId: '' }
     }
 
     componentDidMount() {
@@ -40,63 +41,69 @@ class ListComponent extends Component {
         return <ImageBackground source={Bg} style={styles.imageBg}>
             <View>
                 <SafeAreaView>
-                    <Button title='AddRecipe' onPress={() => { this.props.navigation.navigate('AddRecipe', this.props.navigation.state['params']['token']) }}></Button>
-                    <FlatList
-                        refreshControl={
-                            <RefreshControl refreshing={this.state.isRefresh} onRefresh={() => { this.fetchRecipeList(this.state.token) }}>
+                    <View style={styles.addRecipe}>
+                        <Text style={{fontSize: 20, color: 'rgba(21,49,77,0.8)' , flex: 1, textAlign: 'center',marginLeft:45}}> All Recipes</Text>
+                        <TouchableOpacity onPress={() => { this.props.navigation.navigate('AddRecipe', this.props.navigation.state['params']['token']) }}>
+                            <MaterialIcons name='playlist-add' size = {40} color = 'rgba(21,49,77,0.8)' />
+                            </TouchableOpacity>
+                    </View>
 
-                            </RefreshControl>
-                        }
-                        data={this.state.recipeData}//{this.state.recipeData}
-                        numColumns={1}
-                        renderItem={({ item }) => {
-                            return <View style={style = styles.listCard}>
-                                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                                    <Image style={{ height: 25, width: 25, fontSize: 20, margin: 5 }} source={require('../images/chef.png')}></Image>
-                                    <Text style={{ color: 'white', fontSize: 20 }}>{item.firstName + ' ' + item.lastName}</Text>
-                                </View>
-                                {/* <TouchableWithoutFeedback onPress={()=>{this.onDetail(item)}}> */}
-                                <TouchableWithoutFeedback onPress={() => this.onDetail(item)}>
-                                    {/* <Image style={styles.cardImage} source={{uri: item.photo }}></Image> */}
-                                    <Image style={styles.cardImage} source={this.checkImageURLNull(item.photo)}></Image>
+                <FlatList
+                    refreshControl={
+                        <RefreshControl refreshing={this.state.isRefresh} onRefresh={() => { this.fetchRecipeList(this.state.token) }}>
 
-                                </TouchableWithoutFeedback>
-                                <View style={styles.textRow}>
-                                    <View style={{ flexDirection: 'row', margin: 5, alignItems: 'center' }}>
-                                        <Image style={{ height: 25, width: 25 }} source={require('../images/comp.png')}></Image>
-                                        <Text style={{ color: 'white' }}>{'  ' + item.name}</Text>
-                                    </View>
-                                    <View style={{ flexDirection: 'row', margin: 5, alignItems: 'center' }}>
-                                        <Image style={{ height: 25, width: 25 }} source={require('../images/timer.png')}></Image>
-                                        <Text style={{ color: 'white' }}>{'  ' + item.preparationTime}</Text>
-                                    </View>
-                                    <View style={{ flexDirection: 'row', margin: 5, alignItems: 'center' }}>
-                                        <Image style={{ height: 25, width: 25 }} source={require('../images/serves.png')}></Image>
-                                        <Text style={{ color: 'white' }}>{'  ' + item.serves}</Text>
-                                    </View>
-                                    {/* <TouchableWithoutFeedback onPress={() => this.deleteRecipe(item)} >
-                                        <Image source={require('../images/timer.png')} style={{ width: 25, height: 25, tintColor: 'white' }}></Image>
-                                    </TouchableWithoutFeedback> */}
-                                </View>
-
+                        </RefreshControl>
+                    }
+                    data={this.state.recipeData}//{this.state.recipeData}
+                    numColumns={1}
+                    renderItem={({ item }) => {
+                        return <View style={style = styles.listCard}>
+                            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                <Image style={{ height: 25, width: 25, fontSize: 20, margin: 5 }} source={require('../images/chef.png')}></Image>
+                                <Text style={{ color: 'rgba(255,200,71,1)', fontSize: 20 }}>{item.firstName + ' ' + item.lastName}</Text>
                             </View>
-                        }}
-                        style={style = styles.listView}
-                        keyExtractor={(item) => item.id}
-                    // extraData={this.state}
-                    ></FlatList>
+                            {/* <TouchableWithoutFeedback onPress={()=>{this.onDetail(item)}}> */}
+                            <TouchableWithoutFeedback onPress={() => this.onDetail(item)}>
+                                {/* <Image style={styles.cardImage} source={{uri: item.photo }}></Image> */}
+                                <Image style={styles.cardImage} source={this.checkImageURLNull(item.photo)}></Image>
+
+                            </TouchableWithoutFeedback>
+                            <View style={styles.textRow}>
+                                <View style={{ flexDirection: 'row', margin: 5, alignItems: 'center' }}>
+                                    <Image style={{ height: 25, width: 25 }} source={require('../images/comp.png')}></Image>
+                                    <Text style={{ color: 'rgba(255,200,71,1)' }}>{'  ' + item.name}</Text>
+                                </View>
+                                <View style={{ flexDirection: 'row', margin: 5, alignItems: 'center' }}>
+                                    <Image style={{ height: 25, width: 25 }} source={require('../images/timer.png')}></Image>
+                                    <Text style={{ color: 'rgba(255,200,71,1)' }}>{'  ' + item.preparationTime}</Text>
+                                </View>
+                                <View style={{ flexDirection: 'row', margin: 5, alignItems: 'center' }}>
+                                    <Image style={{ height: 25, width: 25 }} source={require('../images/serves.png')}></Image>
+                                    <Text style={{ color: 'rgba(255,200,71,1)' }}>{'  ' + item.serves}</Text>
+                                </View>
+                                <TouchableWithoutFeedback onPress={() => this.deleteRecipe(item)} >
+                                    <Image source={require('../images/Trash.png')} style={{ width: 20, height: 20, margin: 5, marginEnd: 10, alignItems: 'center' }}></Image>
+                                </TouchableWithoutFeedback>
+                            </View>
+
+                        </View>
+                    }}
+                    style={style = styles.listView}
+                    keyExtractor={(item) => item.id}
+                // extraData={this.state}
+                ></FlatList>
                 </SafeAreaView>
             </View>
-        </ImageBackground>
+        </ImageBackground >
     }
     onDetail = (item) => {
         console.log('hello=========')
-        
-        this.setState({recipeId : item.recipeId})
+
+        this.setState({ recipeId: item.recipeId })
         console.log(this.state.recipeId)
-        
+
         // this.props.navigation.navigate('DetailRecipe')
-        this.props.navigation.navigate('DetailRecipe',{id : this.state.recipeId})
+        this.props.navigation.navigate('DetailRecipe', { id: this.state.recipeId })
     };
 
     checkImageURLNull(url) {
@@ -120,7 +127,7 @@ class ListComponent extends Component {
             }).then((responseJSON) => {
                 this.setState({ recipeData: responseJSON, isRefresh: false })
             })
-    }               
+    }
     fetchRecipeCookingList() {
         this.setState({ isRefresh: true })
         fetch('http://35.160.197.175:3006/api/v1/recipe/cooking-list',
@@ -138,11 +145,18 @@ class ListComponent extends Component {
     }
 
     deleteRecipe(item) {
-        console.log('Delete_Function_Call')
-        // const data = this.props.navigation.getParam('data', '');
-        fetch('http://35.160.197.175:3006/api/v1/recipe/rm-from-cooking-list' + item.id,
+
+        // this.setState({ recipeId: item.recipeId })
+        // return
+        console.log('deleteIdApi=====>' + this.state.recipeId)
+
+        let api = 'http://35.160.197.175:3006/api/v1/recipe/' + item.recipeId
+        console.log(api);
+
+
+        fetch(api,
             {
-                method: 'POST',
+                method: 'DELETE',
                 headers: {
                     'Authorization': 'Bearer ' + this.props.token,
                 },
@@ -153,12 +167,13 @@ class ListComponent extends Component {
             } else {
             }
         }).then((responseJson) => {
-            this.setState({
-                recipeData: responseJson,
-                isLoading: false,
-                isRefreshing: false
-            });
-            this.fetchRecipeCookingList()
+            alert('Recipe Deleted')
+            // this.setState({
+            //     recipeData: responseJson,
+            //     isLoading: false,
+            //     isRefreshing: false
+            // });
+            // this.fetchRecipeCookingList()
         }).catch((error) => {
         });
     }
@@ -166,6 +181,12 @@ class ListComponent extends Component {
 }
 
 const styles = StyleSheet.create({
+    addRecipe: {padding: 10,
+        flexDirection: 'row',
+        justifyContent: 'flex-end',
+        // alignItems: "flex-end",
+        
+    },
     listView: {
         // flex: 1,
         // backgroundColor: 'gray',
